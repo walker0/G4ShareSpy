@@ -216,6 +216,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        NSLog("bytes from receiver: \(characteristic.value)")
         if let error = error {
             delegate?.bluetoothManager(self, didError: error)
             return
