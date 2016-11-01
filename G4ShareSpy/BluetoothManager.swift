@@ -216,7 +216,6 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        NSLog("bytes from receiver: \(characteristic.value)")
         if let error = error {
             delegate?.bluetoothManager(self, didError: error)
             return
@@ -224,7 +223,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         if let value = characteristic.value {
             let hexString = NSMutableString(capacity: value.count * 2)
             for byte in value {
-            hexString.appendFormat("%02x", byte)
+                hexString.appendFormat("%02x", byte)
             }
             NSLog("bytes from receiver: \(hexString)")
             self.delegate?.bluetoothManager(self, didReceiveBytes: value)
