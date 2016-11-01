@@ -76,13 +76,16 @@ public class Receiver: BluetoothManagerDelegate {
     }
 
     private func parseMessage(_ message: Data, receivedAt: Date) {
+        NSLog("parsing")
         if let systemTimeMessage = SystemTimeMessage(data: message) {
+            NSLog("got system time message: \(systemTimeMessage)")
             clockOffset = receivedAt.timeIntervalSince1970 - Double(systemTimeMessage.time)
             if let pending = glucoseHistoryAwaitingClock {
                 emitGlucose(pending, clockOffset: clockOffset!)
                 glucoseHistoryAwaitingClock = nil
             }
         } else if let glucoseHistoryMessage = GlucoseHistoryMessage(data: message) {
+            NSLog("got glucose history message: \(glucoseHistoryMessage)")
             if let offset = clockOffset {
                 emitGlucose(glucoseHistoryMessage, clockOffset: offset)
             } else {

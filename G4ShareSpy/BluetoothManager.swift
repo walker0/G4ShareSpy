@@ -222,6 +222,11 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
             return
         }
         if let value = characteristic.value {
+            let hexString = NSMutableString(capacity: value.count * 2)
+            for byte in value {
+            hexString.appendFormat("%02x", byte)
+            }
+            NSLog("bytes from receiver: \(hexString)")
             self.delegate?.bluetoothManager(self, didReceiveBytes: value)
         }
     }
